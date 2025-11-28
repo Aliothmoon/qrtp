@@ -49,6 +49,16 @@ type Proxy struct {
 	listener   net.Listener
 	client     *Client
 	closeCh    chan struct{}
+	closeOnce  sync.Once // 确保 closeCh 只被关闭一次
+}
+
+func (p *Proxy) Close() {
+	p.closeOnce.Do(func() {
+		close(p.closeCh)
+	})
+	if p.listener != nil {
+		p.listener.Close()
+	}
 }
 
 // New 创建服务端
@@ -153,8 +163,7 @@ func (s *Server) Stop() error {
 	// 关闭所有代理
 	s.proxies.Range(func(key, value interface{}) bool {
 		proxy := value.(*Proxy)
-		close(proxy.closeCh)
-		proxy.listener.Close()
+		proxy.Close()
 		return true
 	})
 	s.wg.Wait()
@@ -163,6 +172,12 @@ func (s *Server) Stop() error {
 
 func (s *Server) handleConnection(conn transport.Conn) {
 	defer s.wg.Done()
+
+	defer func() {
+		if err := recover(); err != nil {
+			log.Printf("[server] painc error with handleConnection %v", err)
+		}
+	}()
 
 	// 优化 TCP 参数（提升 40% 吞吐量）
 	if err := pool.OptimizeTCPConn(conn); err != nil {
@@ -460,11 +475,11 @@ func (s *Server) handleUserConnection(proxy *Proxy, userConn net.Conn, ctrlStrea
 func (s *Server) cleanupClient(client *Client) {
 	client.mu.Lock()
 	for _, proxy := range client.proxies {
-		close(proxy.closeCh)
-		proxy.listener.Close()
+		proxy.Close() // 使用安全的关闭方法
 		s.proxies.Delete(proxy.remotePort)
 		stats.DecActiveProxies()
 	}
+	client.proxies = make(map[string]*Proxy) // 清空，避免重复清理
 	client.mu.Unlock()
 	s.clients.Delete(client.id)
 	log.Printf("[server] client %s disconnected", client.id)
