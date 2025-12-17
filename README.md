@@ -1,5 +1,8 @@
 # QTRP - 快速 TCP 反向代理
 
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![Go Version](https://img.shields.io/badge/Go-1.24+-00ADD8?logo=go)](https://go.dev/)
+
 ## 项目概述
 
 QTRP 是一个用 Go 编写的高性能反向代理和 TCP 隧道工具。它通过防火墙和 NAT 提供安全隧道，支持多种传输层和加密方法，并具有受 Hysteria 启发的性能优化。
@@ -471,4 +474,14 @@ qtrp/
 
 ## 许可证
 
-[在此添加您的许可证]
+本项目采用 **GNU Affero General Public License v3.0 (AGPLv3)** 许可证。
+
+AGPLv3 是一个自由软件许可证，确保了软件的自由和开源性质。主要要点：
+
+- ✅ 可以自由使用、修改和分发本软件
+- ✅ 可以用于商业目的
+- ⚠️ 修改后的代码必须以相同许可证开源
+- ⚠️ 如果在网络服务中使用（包括修改版本），必须向用户提供源代码访问权限
+- ⚠️ 必须保留版权声明和许可证声明
+
+详细信息请查看 [LICENSE](LICENSE.md) 文件。
