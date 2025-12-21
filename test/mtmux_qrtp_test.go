@@ -13,8 +13,8 @@ import (
 	"qtrp/pkg/config"
 )
 
-// TestQRTPMTMuxBasicConnection 测试 MTMux 基本连接和认证
-func TestQRTPMTMuxBasicConnection(t *testing.T) {
+// TestQTRPMTMuxBasicConnection 测试 MTMux 基本连接和认证
+func TestQTRPMTMuxBasicConnection(t *testing.T) {
 	// 服务端配置
 	serverCfg := &config.ServerConfig{
 		BindAddr:      "127.0.0.1:17000",
@@ -81,8 +81,8 @@ func TestQRTPMTMuxBasicConnection(t *testing.T) {
 	t.Log("MTMux basic connection test passed")
 }
 
-// TestQRTPMTMuxProxyDataTransfer 测试 MTMux 代理数据传输
-func TestQRTPMTMuxProxyDataTransfer(t *testing.T) {
+// TestQTRPMTMuxProxyDataTransfer 测试 MTMux 代理数据传输
+func TestQTRPMTMuxProxyDataTransfer(t *testing.T) {
 	// 创建本地测试服务器
 	localServer, err := net.Listen("tcp", "127.0.0.1:0")
 	if err != nil {
@@ -177,8 +177,8 @@ func TestQRTPMTMuxProxyDataTransfer(t *testing.T) {
 	t.Log("MTMux proxy data transfer test passed")
 }
 
-// TestQRTPMTMuxMultipleStreams 测试 MTMux 多流并发
-func TestQRTPMTMuxMultipleStreams(t *testing.T) {
+// TestQTRPMTMuxMultipleStreams 测试 MTMux 多流并发
+func TestQTRPMTMuxMultipleStreams(t *testing.T) {
 	// 创建本地测试服务器
 	localServer, err := net.Listen("tcp", "127.0.0.1:0")
 	if err != nil {
@@ -291,8 +291,8 @@ func TestQRTPMTMuxMultipleStreams(t *testing.T) {
 	t.Log("MTMux multiple streams test passed")
 }
 
-// TestQRTPMTMuxVsSmuxComparison 对比测试 MTMux 和 Smux
-func TestQRTPMTMuxVsSmuxComparison(t *testing.T) {
+// TestQTRPMTMuxVsSmuxComparison 对比测试 MTMux 和 Smux
+func TestQTRPMTMuxVsSmuxComparison(t *testing.T) {
 	if testing.Short() {
 		t.Skip("Skipping comparison test in short mode")
 	}

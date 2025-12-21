@@ -130,20 +130,20 @@ func startQTRPClient(t *testing.T) chan interface{} {
 func TestQTRPWithMTMux(t *testing.T) {
 	// Start components in the correct order:
 	// 1. Local server (the actual service we're proxying)
-	// 2. QRTP server (will listen on 7000-7007 with MTMux)
-	// 3. QRTP client (will connect and register proxy)
+	// 2. QTRP server (will listen on 7000-7007 with MTMux)
+	// 3. QTRP client (will connect and register proxy)
 	// 4. Remote client (connects to the exposed port)
 
 	t.Log("Starting local server on :16002")
 	go startLocalServer(t)
 	time.Sleep(500 * time.Millisecond)
 
-	t.Log("Starting QRTP server on :7000 (with MTMux tunnels 7000-7007)")
+	t.Log("Starting QTRP server on :7000 (with MTMux tunnels 7000-7007)")
 	serverSigCh := startQTRPServer(t)
 	defer func() { serverSigCh <- "test_done" }()
 	time.Sleep(1000 * time.Millisecond)
 
-	t.Log("Starting QRTP client")
+	t.Log("Starting QTRP client")
 	clientSigCh := startQTRPClient(t)
 	defer func() { clientSigCh <- "test_done" }()
 
